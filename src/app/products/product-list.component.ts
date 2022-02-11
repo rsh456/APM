@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { IProduct } from "./product";
+import { ProductService } from "./product.service";
 
 @Component({
     selector:'pm-products',
@@ -45,6 +46,10 @@ export class ProductListComponent implements OnInit{
       }
     ];
 
+    constructor(private productService: ProductService){
+
+    }
+
    performFilter(filterBy: string): IProduct[]{
       filterBy = filterBy.toLocaleLowerCase();
       return this.products.filter((product: IProduct)=>
@@ -55,7 +60,8 @@ export class ProductListComponent implements OnInit{
     this.showImage=!this.showImage;
   }
   ngOnInit(): void{
-    this.listFilter = 'cart';
+    this.products = this.productService.getProducts();
+    this.filteredProducts = this.products;
   }
 
   onRatingClicked(message:string):void{
